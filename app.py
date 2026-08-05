@@ -95,6 +95,9 @@ def evaluate_answer(question, answer):
   response = evaluation_chain.invoke({"question": question, "answer": answer})
   return json.loads(response)
 
+def reset_answer():
+    st.session_state.answer = ""
+
 st.session_state.candidate = {
     "name": name,
     "role": role,
@@ -121,7 +124,7 @@ if start:
 
 st.subheader("🤖 Interview Question")
 st.write(st.session_state.question)
-answer = st.text_area("Your Answer", height=180)
+answer = st.text_area("Your Answer", height=180, key = 'answer')
 submit = st.button("Submit Answer")
 
 if submit:
@@ -139,13 +142,16 @@ if submit:
 
     st.subheader("Feedback")
     st.write(evaluation["feedback"])
+    st.subheader("Improvement")
+    st.write(evaluation["improvement"])
 
 col1,col2 = st.columns(2)
 with col1:
-    if st.button("Next Question"):
+    if st.button("Next Question", on_click = reset_answer):
         st.session_state.question = question_chain.invoke({
         "candidate": st.session_state.candidate,
         "history": st.session_state.history})
+        
         st.rerun()
 with col2:
     if st.button("End Interview"):
