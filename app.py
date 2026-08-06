@@ -147,6 +147,7 @@ left, right = st.columns([2,1])
 with left:
     with st.container(border=True):
             st.subheader("🤖 Interview Question")
+            st.image("https://raw.githubusercontent.com/AKasCODE/AI-Interview-Simulator/refs/heads/main/hr.jpg", width=100)
             st.write(st.session_state.question)
             if "photo" in st.session_state:
                 st.image(st.session_state.photo, width=100)
